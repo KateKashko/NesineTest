@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+// MARK: - Endpoint
+struct Endpoint {
+    let url = "https://nesine-case-study.onrender.com/bets"
+}
