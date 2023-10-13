@@ -9,21 +9,17 @@ import Foundation
 // MARK: - MatchElement
 struct Match: Codable, Identifiable {
     var year: String?
-    private var matchName: String?
+    var matchName: String?
     var type: String?
     var id: String
     var date: String?
     var time: String?
-    var DAY: String?
+    var day: String?
     var status: String?
     var ln: String?
     var imf: Bool?
     private var ocg: [String: Ocg]?
     var hec: Bool?
-    
-    var matchNameWrapper: String {
-        matchName ?? "no name"
-    }
     
     var ocgArray: [(String, Ocg)] {
         if let ocg {
@@ -39,7 +35,7 @@ struct Match: Codable, Identifiable {
         case id = "NID"
         case date = "D"
         case time = "T"
-        case DAY = "DAY"
+        case day = "DAY"
         case status = "S"
         case ln = "LN"
         case imf = "IMF"
