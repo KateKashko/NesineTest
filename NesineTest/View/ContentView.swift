@@ -12,7 +12,7 @@ struct ContentView: View {
     @StateObject var viewModel = ViewModel()
     
     var body: some View {
-       SectionView()
+            SectionView()
     }
 }
 

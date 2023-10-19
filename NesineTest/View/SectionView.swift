@@ -10,10 +10,12 @@ import SwiftUI
 struct SectionView: View {
     
     @StateObject var viewModel = ViewModel()
+    @State private var cartItems: [String] = []
+    @State var goToCart = false
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 LazyVStack {
                     ForEach(viewModel.matches, id: \.id) { match in
@@ -32,12 +34,13 @@ struct SectionView: View {
                                             Text("\(match.day ?? "")")
                                         }
                                         .foregroundColor(.white)
-                                        .font(.system(size: 14))
-                                        .padding(.horizontal, 8)
+                                        .font(.system(size: 16))
+                                        .padding(6)
                                     }
                                     
                                     Text("\(match.matchName ?? "")")
                                         .foregroundColor(Color("Four"))
+                                        .bold()
                                     
                                     ScrollView(.horizontal){
                                         HStack {
@@ -47,14 +50,20 @@ struct SectionView: View {
                                                         Text("\(value.n ?? "no N")")
                                                             .foregroundColor(Color("Four"))
                                                             .font(.system(.footnote))
-                                                        Text("\(value.o ?? "no O")")
-                                                            .frame(width:56, height: 27)
-                                                            .background(Color("One"))
-                                                            .foregroundColor(Color("Four"))
-                                                            .font(.system(.footnote))
-                                                            .fontWeight(.bold)
-                                                            .cornerRadius(5)
-                                                        
+                                                        Button(action: {
+                                                            let data = value.o
+                                                            cartItems.append(data ?? "")
+                                                            print(cartItems)
+                                                        }) {
+                                                            Text("\(value.o ?? "no O")")
+                                                                .frame(width:56, height: 27)
+                                                                .background(Color("One"))
+                                                                .foregroundColor(Color("Four"))
+                                                                .font(.system(.footnote))
+                                                                .fontWeight(.bold)
+                                                                .cornerRadius(5)
+                                                            
+                                                        }
                                                     }
                                                 }
                                             }
@@ -73,6 +82,18 @@ struct SectionView: View {
             }
 //            .padding()
             .navigationTitle("Bülten")
+            .navigationDestination(isPresented: $goToCart) {
+                CartView()
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button() {
+                        goToCart = true
+                    }label: {
+                        Image(systemName: "cart")
+                    }
+                }
+            }
         }
         .task {
             await viewModel.getMatchData()
