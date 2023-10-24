@@ -8,27 +8,19 @@
 import SwiftUI
 
 struct CartView: View {
-    let totalPrice = CartViewModel().totalPrice
+    
+    @State var items: String = "" 
+    @State var multiply: String = ""
+    @StateObject var cartService = CartService.shared
     
     var body: some View {
+       
         VStack {
-            Text("Sepet")
-                .font(.system(size: 44, weight: .semibold, design: .rounded))
-                .frame(width: 320, alignment: .leading)
+
             List {
-                ForEach(0..<cartItems.endIndex, id:\.self) {item in
-
-
-                        VStack(spacing: 5) {
-                            Text(cartItems[item])
-//                            Text(cartItems[item] as! String)
-//                            Text("$\(String(format: "%.2f", cartItems[item] as! Double))")
-                                .foregroundColor(.gray)
+                    ForEach(cartService.cartItems, id: \.self) { item in
+                        Text("\(item)")
                     }
-                }.onDelete{indexSet in
-                    cartItems.remove(atOffsets: indexSet)
-                    CartViewModel().calculateTotalPrice()
-                }
             }
             Spacer()
             ZStack {
@@ -42,7 +34,7 @@ struct CartView: View {
                         .font(.system(size: 20))
                         .frame(width: 350, alignment: .leading)
                         .padding(.leading, 60)
-                    Text("TL\(String(format: "%.2f", totalPrice))")
+                    Text(multiply)
                         .foregroundColor(.white)
                         .font(.system(size: 26, weight: .bold))
                         .frame(width: 350, alignment: .leading)
@@ -50,22 +42,28 @@ struct CartView: View {
                 }
                 Button() {
                     
+    
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .strokeBorder()
                             .frame(width: 120, height: 50)
                             .foregroundColor(.white)
-                        Text("Şimdi öde >")
+                        Text("Hemen oyna")
                             .foregroundColor(.white)
                             .bold()
                     }
                 }.offset(x: 80)
             }
             
-        }.onAppear(perform: CartViewModel().calculateTotalPrice)
+        }
+        .onAppear {
+
+            items = CartService.shared.items
+            multiply = CartService.shared.multiply
+            print(items)
+        }
     }
-    
 }
 
 struct CartView_Previews: PreviewProvider {

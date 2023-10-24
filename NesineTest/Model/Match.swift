@@ -8,7 +8,7 @@
 import Foundation
 // MARK: - MatchElement
 struct Match: Codable, Identifiable {
-    var year: String?
+    var code: String?
     var matchName: String?
     var type: String?
     var id: String
@@ -29,7 +29,7 @@ struct Match: Codable, Identifiable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case year = "C"
+        case code = "C"
         case matchName = "N"
         case type = "TYPE"
         case id = "NID"

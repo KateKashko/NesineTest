@@ -10,7 +10,9 @@ import SwiftUI
 struct SectionView: View {
     
     @StateObject var viewModel = ViewModel()
-    @State private var cartItems: [String] = []
+    @StateObject var cartService = CartService.shared
+    
+
     @State var goToCart = false
     
     var body: some View {
@@ -52,13 +54,15 @@ struct SectionView: View {
                                                             .font(.system(.footnote))
                                                         Button(action: {
                                                             let data = value.o
-                                                            cartItems.append(data ?? "")
-                                                            print(cartItems)
+                                                            
+                                                            cartService.cartItems.append(data ?? "")
+                                                            
+                                                            print(cartService.cartItems)
                                                         }) {
                                                             Text("\(value.o ?? "no O")")
                                                                 .frame(width:56, height: 27)
-                                                                .background(Color("One"))
-                                                                .foregroundColor(Color("Four"))
+                                                                .background(Color("Four"))
+                                                                .foregroundColor(.white)
                                                                 .font(.system(.footnote))
                                                                 .fontWeight(.bold)
                                                                 .cornerRadius(5)
@@ -80,7 +84,6 @@ struct SectionView: View {
                     }
                 }
             }
-//            .padding()
             .navigationTitle("Bülten")
             .navigationDestination(isPresented: $goToCart) {
                 CartView()

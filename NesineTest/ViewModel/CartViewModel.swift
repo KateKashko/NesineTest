@@ -6,21 +6,31 @@
 //
 
 import Foundation
-import SwiftUI
+import Combine
 
+final class CartService: ObservableObject {
+    var objectWillChange = ObservableObjectPublisher()
 
-var cartItems: [String] = [
-
-]
-
-class CartViewModel: ObservableObject {
-    @Published var totalPrice = 0.00
-    @Published var showingCart = false
+    static let shared = CartService()
+    private init() {}
     
-    func calculateTotalPrice() {
-        totalPrice = 0.00
-        for _ in 0..<cartItems.count {
-            totalPrice *= cartItems as! Double
-        }
+    var cartItems: [String] = []
+    
+    var items: String {
+        print(cartItems.joined())
+        return cartItems.joined(separator: "\n")
     }
+    
+    var multiply: String {
+        var result: Double = 1
+        
+        for item in cartItems {
+            result *= Double.init(item) ?? 0
+        }
+        objectWillChange.send()
+        return String(format: "%.2f", result)
+    }
+    
 }
+
+
