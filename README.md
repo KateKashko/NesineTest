@@ -4,4 +4,4 @@
 
 ### JSON
 https://nesine-case-study.onrender.com/bets <br>
-https://github.com/KateKashko/NesineTest/issues/1#issue-2005825688
+https://github.com/KateKashko/NesineTest/assets/107617602/e6c1ac71-6c2f-4335-aea9-5b15be878e7b
